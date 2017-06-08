@@ -1,13 +1,55 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='en' ng-app="exampleApp">
 <head>
   <meta charset="utf-8">
   <title>Example Angular Webpack App</title>
   <link rel="stylesheet" href="./styles/leaflet.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles/styles.css" />
 </head>
 <body>
-  <!-- something goes here -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Fatal Car Crashed in PA, 2004 - 2013</a>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid content">
+    <div class="row content-row">
+      <div class="col-sm-3 sidebar" ng-controller="SidebarController">
+        <div class="row">
+          <div <div class="col-sm-12">
+            <div class="btn-group" uib-dropdown>
+              <button id="split-button" type="button" class="btn btn-primary">Select by Year</button>
+              <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+                <span class="caret"></span>
+                <span class="sr-only"></span>
+              </button>
+              <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+                <li role="menuitem" ng-repeat="year in [2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013]"><a href="#" ng-click="selectYear(year)">{{year}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-9 map" id="map" style="border:1px solid red" ng-controller="MapController">
+        <p>{{year}}</p>
+      </div>
+    </div>
+  </div>
+
   <script src="./lib/angular.js"></script>
+  <script src="./lib/angular-touch.js"></script>
+  <script src="./lib/angular-animate.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-resource.js"></script>
+  <script src="./lib/ui-bootstrap.js"></script>
   <script src="./lib/leaflet.js"></script>
+  <script src='https://cdn.jsdelivr.net/lodash/4.17.4/lodash.js'></script>
+  <script src="./core/services/pullData/pullData.module.js"></script>
+  <script src="./core/services/pullData/pullData.service.js"></script>
+  <script src="./core/services/selectYear/selectYear.module.js"></script>
+  <script src="./core/services/selectYear/selectYear.service.js"></script>
+  <script src="./app.module.js"></script>
 </body>
 </html>
