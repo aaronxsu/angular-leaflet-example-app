@@ -33,8 +33,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-9 map" id="map" style="border:1px solid red" ng-controller="MapController">
-        <p>{{year}}</p>
+      <div class="col-sm-9 map" id="map" ng-controller="MapController">
       </div>
     </div>
   </div>
@@ -46,6 +45,10 @@
   <script src="./lib/ui-bootstrap.js"></script>
   <script src="./lib/leaflet.js"></script>
   <script src='https://cdn.jsdelivr.net/lodash/4.17.4/lodash.js'></script>
+  <script src="./core/services/createBasemap/createBasemap.module.js"></script>
+  <script src="./core/services/createBasemap/createBasemap.service.js"></script>
+  <script src="./core/services/addMapTileLayer/addMapTileLayer.module.js"></script>
+  <script src="./core/services/addMapTileLayer/addMapTileLayer.service.js"></script>
   <script src="./core/services/pullData/pullData.module.js"></script>
   <script src="./core/services/pullData/pullData.service.js"></script>
   <script src="./core/services/selectYear/selectYear.module.js"></script>
