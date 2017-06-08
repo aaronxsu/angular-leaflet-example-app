@@ -5,5 +5,6 @@ angular.module("exampleApp", [
   'core.createBasemap',
   'core.addMapTileLayer',
   'core.pullData',
+  'core.mapAddGeojson',
   'core.selectYear'
 ])
