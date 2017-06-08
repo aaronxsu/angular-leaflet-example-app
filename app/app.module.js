@@ -4,7 +4,9 @@ angular.module("exampleApp", [
   'ui.bootstrap',
   'core.createBasemap',
   'core.addMapTileLayer',
+  'core.mapPassAround',
   'core.pullData',
   'core.mapAddGeojson',
-  'core.selectYear'
+  // 'core.selectYear',
+  'core.mapChangeFillColor'
 ])
