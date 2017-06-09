@@ -37,14 +37,14 @@
           <div class="col-sm-12">
             <h5>Select Crash Count Area</h5>
             <div class="btn-group">
-              <label class="btn btn-success" ng-model="radioModel" ng-click="selectArea(radioModel)" uib-btn-radio="'Low'">Low</label>
-              <label class="btn btn-primary" ng-model="radioModel" ng-click="selectArea(radioModel)" uib-btn-radio="'Medium'">Medium</label>
-              <label class="btn btn-warning" ng-model="radioModel" ng-click="selectArea(radioModel)" uib-btn-radio="'High'">High</label>
+              <label class="btn btn-success" ng-model="countLevel" ng-click="selectArea(countLevel)" uib-btn-radio="'Low'">Low</label>
+              <label class="btn btn-primary" ng-model="countLevel" ng-click="selectArea(countLevel)" uib-btn-radio="'Medium'">Medium</label>
+              <label class="btn btn-warning" ng-model="countLevel" ng-click="selectArea(countLevel)" uib-btn-radio="'High'">High</label>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-sm-9 map" id="map" ng-controller="MapController"></div>
+      <div class="col-sm-9 map" id="map" ng-controller="MapController" ng-model='$ctrl.map'></div>
     </div>
   </div>
 

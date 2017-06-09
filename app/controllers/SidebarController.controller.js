@@ -17,12 +17,19 @@ angular
       scope.yearSelected = false;
 
       //the map passed from the MapController
-      var map = MapPassAround.getMap();
-      // console.log(map)
+      scope.$watch(
+        function() {
+          return MapPassAround.getMap();
+        },
+        function(newValue, oldValue) {
+          if (newValue !== oldValue) {
+            scope.map = newValue;
+          }
+       });
 
       //use the pulldata service to get crash count by county data
       PullData.get({dataName: 'PA_counties_w_crash_count_by_year'}, function(data){
-        layerCounty = MapAddGeojson(map[0], data);
+        layerCounty = MapAddGeojson(scope.map, data);
       });
 
       //the select by year button on the sidebar
@@ -45,17 +52,17 @@ angular
 
       //the select area button group on the sidebae
       scope.selectArea = function(crashCntkLevel){
-        map[0].addControl(drawControl);
+        scope.map.addControl(drawControl);
         console.log(crashCntkLevel);
-        map[0].on(L.Draw.Event.CREATED, function (e) {
-        var type = e.layerType;
-        var layer = e.layer;
-        if (type === 'polygon') {
-          drawnItems.addLayer(layer);
-        }
-        map[0].addLayer(layer);
+        scope.map.on(L.Draw.Event.CREATED, function (e) {
+          var type = e.layerType;
+          var layer = e.layer;
+          if (type === 'polygon') {
+            drawnItems.addLayer(layer);
+          }
+          scope.map.addLayer(layer);
         });
       }
 
-    }
+    }//end of controller function
 ])
