@@ -11,15 +11,15 @@
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Fatal Car Crashed in PA, 2004 - 2013</a>
+        <a class="navbar-brand" href="#">Fatal Car Crashed in PA, {{selectedCrashYear}}</a>
       </div>
     </div>
   </nav>
   <div class="container-fluid content">
     <div class="row content-row">
       <div class="col-sm-3 sidebar" ng-controller="SidebarController">
-        <div class="row">
-          <div <div class="col-sm-12">
+        <div class="row search-btn-row">
+          <div class="col-sm-12">
             <div class="btn-group" uib-dropdown>
               <button id="split-button" type="button" class="btn btn-primary">Select by Year</button>
               <button type="button" class="btn btn-primary" uib-dropdown-toggle>
@@ -33,8 +33,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-9 map" id="map" ng-controller="MapController">
-      </div>
+      <div class="col-sm-9 map" id="map" ng-controller="MapController"></div>
     </div>
   </div>
 

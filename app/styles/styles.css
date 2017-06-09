@@ -15,8 +15,13 @@ body,
 }
 
 .content-row {
-    height: 100%;
-    display: table-row;
+  height: 100%;
+  display: table-row;
+}
+
+.search-btn-row,
+.year-display-row{
+  margin: 20px 0px 20px 10px;
 }
 
 .nav, .pagination, .carousel, .panel-title a {

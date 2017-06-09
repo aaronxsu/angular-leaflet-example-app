@@ -1,4 +1,4 @@
-angular.module("exampleApp", [
+angular.module('exampleApp', [
   'ngAnimate',
   'ngTouch',
   'ui.bootstrap',
