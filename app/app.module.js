@@ -7,6 +7,6 @@ angular.module('exampleApp', [
   'core.mapPassAround',
   'core.pullData',
   'core.mapAddGeojson',
-  // 'core.selectYear',
-  'core.mapChangeFillColor'
+  'core.mapChangeFillColor',
+  'core.mapCreateDrawControl'
 ])
