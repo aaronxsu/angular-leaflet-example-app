@@ -35,6 +35,25 @@ angular
                    .crash_level;
     }
 
+    function deletePolygonById(geojsonDrawnPolygons, idDelete){
+      var polygons = geojsonDrawnPolygons;
+      _.chain(polygons)
+       .values()
+       .flatten()
+       .compact()
+       .forEach(function(eachPoly){
+        //  console.log(_.last(eachPoly.properties.id.split('-')).toString())
+         if(_.last(eachPoly.properties.id.split('-')).toString() === idDelete.toString()){
+           var level = eachPoly.properties.crash_level;
+           polygons[level.toLowerCase()] = _.reject(polygons[level.toLowerCase()], function(findPoly){
+             return _.last(findPoly.properties.id.split('-')).toString() === idDelete.toString();
+           });
+         }
+       })
+       .value();
+       return polygons;
+    }
+
     function fillDrawnColor(crashLevel){
       return crashLevel == 'low'    ? '#47a447' :
              crashLevel == 'medium' ? '#428bca' :
@@ -75,5 +94,6 @@ angular
       plotDrawnGeojsonPolygon: plotDrawnGeojsonPolygon,
       getDrawnPolygonInfo: getDrawnPolygonInfo,
       findCrashLevelById: findCrashLevelById,
+      deletePolygonById: deletePolygonById,
     }
   })

@@ -102,8 +102,7 @@ angular
                       });
             layerMappedPolygons = drawnItems.addTo(scope.map);
             console.log(geojsonDrawnPolygons);
-            console.log(layerMappedPolygons);
-            console.log(drawnItems);
+
           }
         });//end of map on draw created event
 
@@ -113,22 +112,20 @@ angular
         scope.map.on('draw:deleted', function (e) {
           var layers = e.layers;
           var polygonId = _.first(_.keys(layers._layers));//the id of the polygon deleted
-          //delete this polygon from 'geojsonDrawnPolygons'
-          geojsonDrawnPolygons[crashLevel.toLowerCase()] = _.reject(geojsonDrawnPolygons[crashLevel.toLowerCase()], function(eachDrawnPolygon){
-            return _.last(eachDrawnPolygon.properties.id.split('-')) === polygonId;
-          })
-          // console.log(geojsonDrawnPolygons);
-          // console.log(drawnItems);
-          // console.log(layers);
-          // console.log(id);
+
+          geojsonDrawnPolygons = MapDrawPolygon.deletePolygonById(geojsonDrawnPolygons, polygonId);
+
+          console.log(geojsonDrawnPolygons);
+
 
         });//end of map on draw deleted event
 
         scope.map.on('draw:edited', function (e) {
           var layers = e.layers;//the layer that is edited
           var polygonId = _.first(_.keys(layers._layers));
+
           console.log(layers)
-          console.log(id)
+          // console.log(id)
         });//end of map on draw edited event
 
       }//end of selectArea click event
