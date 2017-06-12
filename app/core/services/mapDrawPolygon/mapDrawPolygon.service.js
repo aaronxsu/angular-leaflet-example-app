@@ -15,9 +15,25 @@ angular
         },
          edit: {
              featureGroup: drawnItems,
-         }
+         },
+         delete: false,
      });
-   };
+    };
+
+    function findCrashLevelById(dataPolygon, id){
+      return _.chain(dataPolygon)
+                   .values()
+                   .flatten()
+                   .compact()
+                   .filter(function(eachPoly){
+                     console.log(eachPoly)
+                     return _.last(eachPoly.properties.id.split('-')).toString() === id.toString();
+                   })
+                   .first()
+                   .value()
+                   .properties
+                   .crash_level;
+    }
 
     function fillDrawnColor(crashLevel){
       return crashLevel == 'low'    ? '#47a447' :
@@ -58,5 +74,6 @@ angular
       fillDrawnColor: fillDrawnColor,
       plotDrawnGeojsonPolygon: plotDrawnGeojsonPolygon,
       getDrawnPolygonInfo: getDrawnPolygonInfo,
+      findCrashLevelById: findCrashLevelById,
     }
   })

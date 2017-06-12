@@ -64,22 +64,22 @@ angular
           addedDrawControl = scope.map.addControl(drawControl);
         }
         //whatever polygon is mapped on the basemap, clean them
-        if(layerMappedPolygons.length){
-          _.forEach(layerMappedPolygons, function(eachPolygon){
-            scope.map.removeLayer(eachPolygon);
-          });
-          layerMappedPolygons = [];
-        }
+        // if(layerMappedPolygons.length){
+        //   _.forEach(layerMappedPolygons, function(eachPolygon){
+        //     scope.map.removeLayer(eachPolygon);
+        //   });
+        //   layerMappedPolygons = [];
+        // }
         //if there are drawn polygons of a selected level of crash count, plot them
-        if(geojsonDrawnPolygons[crashCntkLevel.toLowerCase()].length){
-          layerMappedPolygons = _.map(geojsonDrawnPolygons[crashCntkLevel.toLowerCase()], function(eachPolygon){
-            return MapDrawPolygon.plotDrawnGeojsonPolygon(eachPolygon, crashCntkLevel.toLowerCase(), scope.map)
-          })
-        }
+        // if(geojsonDrawnPolygons[crashCntkLevel.toLowerCase()].length){
+        //   layerMappedPolygons = _.map(geojsonDrawnPolygons[crashCntkLevel.toLowerCase()], function(eachPolygon){
+        //     return MapDrawPolygon.plotDrawnGeojsonPolygon(eachPolygon, crashCntkLevel.toLowerCase(), scope.map)
+        //   })
+        // }
         //when a drawn polygon is crerated
         //store the id, year ,and crash level, and the intersecting counties' info (name, fips, crash count)
         //add this polygon to 'geojsonDrawnPolygons', which store all drawn shapes in geojson
-        //add this polygon to the map and an array storing all current drawn items of a year and a crash level
+        //add this polygon to the drawnItems feature group to be managed by the library
         scope.map.on(L.Draw.Event.CREATED, function(e){
           if(crashLevel !== ''){
             var layer = e.layer;
@@ -90,47 +90,48 @@ angular
             geojsonDrawnPolygons[crashLevel.toLowerCase()].push(geojsonLayerPolygon);
             geojsonDrawnPolygons[crashLevel.toLowerCase()] = _.uniqBy(geojsonDrawnPolygons[crashLevel.toLowerCase()], 'properties.id');
             //push the mapped polygons to all currently mapped polygon array, make sure they are unique and have no undefined values
-            layerMappedPolygons.push(MapDrawPolygon.plotDrawnGeojsonPolygon(geojsonLayerPolygon, crashLevel.toLowerCase(), scope.map));
-            layerMappedPolygons = _.compact(layerMappedPolygons);
-
-            drawnItems.addLayer(layer);
-            // console.log(geojsonDrawnPolygons);
-            // console.log(layerMappedPolygons);
-            // console.log(drawnItems);
+            // layerMappedPolygons.push(MapDrawPolygon.plotDrawnGeojsonPolygon(geojsonLayerPolygon, crashLevel.toLowerCase(), scope.map));
+            // layerMappedPolygons = _.compact(layerMappedPolygons);
+            drawnItems.addLayer(layer)
+                      .eachLayer(function(layer){
+                        var level = MapDrawPolygon.findCrashLevelById(geojsonDrawnPolygons, layer._leaflet_id)
+                        layer.setStyle({
+                          color: MapDrawPolygon.fillDrawnColor(level.toLowerCase()),
+                          fillColor: MapDrawPolygon.fillDrawnColor(level.toLowerCase()),
+                        });
+                      });
+            layerMappedPolygons = drawnItems.addTo(scope.map);
+            console.log(geojsonDrawnPolygons);
+            console.log(layerMappedPolygons);
+            console.log(drawnItems);
           }
         });//end of map on draw created event
 
-
+        //when a polygon is deleted from the map
+        //delete this polygon from the 'geojsonDrawnPolygons', which stores all drawn polygons in geojson along with year, level, and county info
+        //this polygon will be deleted from the drawnItems and the map layer by the library
         scope.map.on('draw:deleted', function (e) {
-          var layers = e.layers;//the layer that is deleted
-          var id = L.stamp(layers)
-
-          console.log(id)
+          var layers = e.layers;
+          var polygonId = _.first(_.keys(layers._layers));//the id of the polygon deleted
+          //delete this polygon from 'geojsonDrawnPolygons'
+          geojsonDrawnPolygons[crashLevel.toLowerCase()] = _.reject(geojsonDrawnPolygons[crashLevel.toLowerCase()], function(eachDrawnPolygon){
+            return _.last(eachDrawnPolygon.properties.id.split('-')) === polygonId;
+          })
+          // console.log(geojsonDrawnPolygons);
+          // console.log(drawnItems);
+          // console.log(layers);
+          // console.log(id);
 
         });//end of map on draw deleted event
 
+        scope.map.on('draw:edited', function (e) {
+          var layers = e.layers;//the layer that is edited
+          var polygonId = _.first(_.keys(layers._layers));
+          console.log(layers)
+          console.log(id)
+        });//end of map on draw edited event
+
       }//end of selectArea click event
-
-
-
-
-
-
-        // scope.map.on('draw:edited', function (e) {
-        //
-        //   var layers = e.layers;//the layer that is edited
-        //   var id = L.stamp(layers)
-        //   console.log(layers)
-        //   console.log(id)
-        //   // var id = L.stamp(layer);
-        //   // console.log(layer)
-        //
-        //
-        //
-        // });
-
-
-
 
     }//end of controller function
 ])
