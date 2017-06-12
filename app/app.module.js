@@ -8,5 +8,5 @@ angular.module('exampleApp', [
   'core.pullData',
   'core.mapAddGeojson',
   'core.mapChangeFillColor',
-  'core.mapCreateDrawControl'
+  'core.mapDrawPolygon'
 ])
